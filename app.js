@@ -14,30 +14,9 @@ app.set('view engine','handlebars');
 
 
 
-app.get('/',(req,res)=>{
+const main=require('./routes/home/main');
 
-	res.render('home/index');
-
-})
-
-app.get('/about',(req,res)=>{
-
-	res.render('home/about');
-
-})
-
-app.get('/login',(req,res)=>{
-
-	res.render('home/login');
-
-})
-
-
-app.get('/register',(req,res)=>{
-
-	res.render('home/register');
-
-})
+app.use('/',main);
 
 
 

@@ -14,10 +14,11 @@ app.set('view engine','handlebars');
 
 
 
-const main=require('./routes/home/main');
+const home=require('./routes/home/index');
+const admin=require('./routes/admin/index');
 
-app.use('/',main);
-
+app.use('/',home);
+app.use('/admin',admin);
 
 
 app.listen(4500,()=>{

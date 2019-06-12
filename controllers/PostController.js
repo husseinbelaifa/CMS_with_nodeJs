@@ -69,4 +69,11 @@ module.exports.update=(req,res)=>{
 
 module.exports.destroy=(req,res)=>{
 
+
+	Post.remove({_id:req.params.id}).then(result=>{
+
+		res.redirect('/admin/posts');
+
+	});
+
 }

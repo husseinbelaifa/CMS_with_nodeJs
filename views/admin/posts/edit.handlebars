@@ -14,24 +14,25 @@
 
 	<div class="form-group">
      <label for="status">Status</label>
-   <select name="status" id="status" class="form-control" >
-   <option value="public"    >Public</option>
+      <select name="status" id="status" class="form-control" >
+     {{#select post.status}}
+  
+   <option value="public"   selected="selected">Public</option>
     <option value="private"  >Private</option>
      <option value="draft"  >Draft</option>
-   </select>
+  
+   {{/select}}
+    </select>
 	</div>
 
 
-{{#select}}{{/select}}
+
 	<div class="form-check">
      <label for="allowComments">
      <input type="checkbox" name="allowComments" id="allowComments" class="form-check-input" 
       {{#if post.alllowComments}} checked='checked' {{/if}}
      >
-}
-}
-}
-}
+
 Allow Comments
      </label>
 	</div>

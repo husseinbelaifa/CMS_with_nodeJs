@@ -1,6 +1,6 @@
 module.exports={
 
-	select(){
-		console.log('works');
+	select(selected,options){
+		return options.fn(this).replace(new RegExp('value=\"'+selected+'\"'),'$&selected="selected"')
 	}
 }

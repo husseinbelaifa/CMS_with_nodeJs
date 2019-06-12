@@ -15,4 +15,6 @@ router.post('/create',PostController.store);
 router.get('/edit/:id',PostController.edit);
 router.patch('/edit/:id',PostController.update);
 router.delete('/delete/:id',PostController.destroy);
+
+router.post('/generate-fake-posts',PostController.faker);
 module.exports=router;

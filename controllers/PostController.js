@@ -1,5 +1,5 @@
 const Post=require('../models/Post');
-
+const faker=require('faker');
 
 module.exports.index=(req,res)=>{
 	Post.find().then(posts=>{
@@ -76,4 +76,28 @@ module.exports.destroy=(req,res)=>{
 
 	});
 
+}
+
+module.exports.faker=(req,res)=>{
+
+	 // res.send(faker.random.boolean());
+
+	for(let i=0;i<req.body.amount;i++){
+
+		let post=new Post();
+		post.title=faker.name.title();
+		post.status=faker.random.arrayElement(['public','private','draft']);
+
+		post.allowComments=faker.random.boolean();
+		post.body=faker.lorem.sentence();
+
+console.log(post);
+		post.save(err=>{
+			if(err) throw err;
+		})
+
+
+	}
+
+		res.redirect('/admin/posts');
 }

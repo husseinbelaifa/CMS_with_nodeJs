@@ -3,7 +3,7 @@ const app=express();
 const path=require('path');
 const exphbs=require('express-handlebars');
 const mongoose=require('./config/dbConfig');
-
+const bodyParser=require('body-parser');
 app.use(express.static(path.join(__dirname,'public')))
 
 
@@ -13,6 +13,8 @@ app.engine('handlebars',exphbs({defaultLayout:'home',
 app.set('view engine','handlebars');
 
 
+ app.use(bodyParser.json()); 
+ app.use(bodyParser.urlencoded({ extended: true }));
 
 const home=require('./routes/home/index');
 const admin=require('./routes/admin/index');

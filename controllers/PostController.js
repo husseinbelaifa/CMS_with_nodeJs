@@ -20,6 +20,7 @@ module.exports.edit=(req,res,id)=>{
 console.log(req.params.id);
 
    Post.findOne({_id:req.params.id}).then(post=>{
+   	console.log(post.allowComments);
       res.render('admin/posts/edit',{post:post});
    })
 
@@ -43,5 +44,29 @@ module.exports.store=(req,res)=>{
      	console.log(error);
      });
 
-	// res.render('admin/posts/create');
+	
+}
+
+
+module.exports.update=(req,res)=>{
+
+	Post.findOne({_id:req.params.id}).then(post=>{
+
+		post.title=req.body.title;
+		post.status=req.body.status;
+		post.allowComments=req.body.allowComments ? true : false;
+		post.body=req.body.body;
+
+		post.save().then(updatedPost=>{
+			console.log('updated Post');
+			res.redirect('/admin/posts');
+		});
+		
+
+	})
+
+}
+
+module.exports.destroy=(req,res)=>{
+
 }

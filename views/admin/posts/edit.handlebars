@@ -1,9 +1,7 @@
 <h1>Edit Post</h1>
 
-<form action="/admin/posts/edit" method="post" 
+<form action="/admin/posts/edit/{{post.id}}?_method=PATCH" method="post" 
 {{!-- enctype="multipart/form-data" --}}
-
-
 
 >
 
@@ -13,7 +11,7 @@
 	</div>
 
 	<div class="form-group">
-     <label for="status">Status</label>
+     <label for="status" >Status</label>
       <select name="status" id="status" class="form-control" >
      {{#select post.status}}
   
@@ -28,9 +26,11 @@
 
 
 	<div class="form-check">
-     <label for="allowComments">
+     <label for="allowComments" class="form-check-label">
      <input type="checkbox" name="allowComments" id="allowComments" class="form-check-input" 
-      {{#if post.alllowComments}} checked='checked' {{/if}}
+      {{#if post.allowComments}} checked='checked' {{/if}}
+
+    
      >
 
 Allow Comments

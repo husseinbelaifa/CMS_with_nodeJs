@@ -5,6 +5,7 @@ const exphbs=require('express-handlebars');
 const mongoose=require('./config/dbConfig');
 const bodyParser=require('body-parser');
 const {select}=require('./helpers/handlebars-helpers');
+const methodOverride=require('method-override');
 
 app.use(express.static(path.join(__dirname,'public')))
 
@@ -18,6 +19,8 @@ app.set('view engine','handlebars');
 
  app.use(bodyParser.json()); 
  app.use(bodyParser.urlencoded({ extended: true }));
+
+ app.use(methodOverride('_method'));
 
 const home=require('./routes/home/index');
 const admin=require('./routes/admin/index');

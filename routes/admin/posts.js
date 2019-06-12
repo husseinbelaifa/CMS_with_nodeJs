@@ -12,4 +12,5 @@ router.all('/*',(req,res,next)=>{
 router.get('/',PostController.index)
 router.get('/create',PostController.create)
 router.post('/create',PostController.store);
+router.get('/edit/:id',PostController.edit);
 module.exports=router;

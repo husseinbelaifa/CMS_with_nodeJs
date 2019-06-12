@@ -14,6 +14,19 @@ module.exports.create=(req,res)=>{
 	res.render('admin/posts/create');
 }
 
+module.exports.edit=(req,res,id)=>{
+
+
+console.log(req.params.id);
+
+   Post.findOne({_id:req.params.id}).then(post=>{
+      res.render('admin/posts/edit',{post:post});
+   })
+
+	
+}
+
+
 module.exports.store=(req,res)=>{
 
 	const newPost=new Post({

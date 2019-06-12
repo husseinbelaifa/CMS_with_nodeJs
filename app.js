@@ -4,10 +4,13 @@ const path=require('path');
 const exphbs=require('express-handlebars');
 const mongoose=require('./config/dbConfig');
 const bodyParser=require('body-parser');
+const {select}=require('./helpers/handlebars-helpers');
+
 app.use(express.static(path.join(__dirname,'public')))
 
 
 app.engine('handlebars',exphbs({defaultLayout:'home', 
+	helpers:{select:select}
 	
 }))
 app.set('view engine','handlebars');

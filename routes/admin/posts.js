@@ -10,4 +10,5 @@ router.all('/*',(req,res,next)=>{
 
 
 router.get('/',PostController.index)
+router.get('/create',PostController.create)
 module.exports=router;

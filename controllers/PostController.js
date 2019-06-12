@@ -1,16 +1,22 @@
 const Post=require('../models/Post');
+
+
 module.exports.index=(req,res)=>{
-	res.render('admin/posts/index');
+	Post.find().then(posts=>{
+res.render('admin/posts/index',{posts:posts});
+	});
 }
 
 
 module.exports.create=(req,res)=>{
+
+
 	res.render('admin/posts/create');
 }
 
 module.exports.store=(req,res)=>{
 
-	const newPost=Post({
+	const newPost=new Post({
 		title:req.body.title,
 		status:req.body.status,
 		allowComments:req.body.allowComments ? true : false,

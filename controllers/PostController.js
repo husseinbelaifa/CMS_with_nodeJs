@@ -7,3 +7,9 @@ module.exports.index=(req,res)=>{
 module.exports.create=(req,res)=>{
 	res.render('admin/posts/create');
 }
+
+module.exports.store=(req,res)=>{
+
+	res.send('it is working')
+	// res.render('admin/posts/create');
+}

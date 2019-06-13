@@ -49,6 +49,16 @@ app.use(flash());
 app.use((req,res,next)=>{
 	res.locals.success_message=req.flash('success_message');
 	next();
+});
+
+app.use((req,res,next)=>{
+	res.locals.updated_message=req.flash('updated_message');
+	next();
+});
+
+app.use((req,res,next)=>{
+	res.locals.delete_message=req.flash('delete_message');
+	next();
 })
 
 app.use('/',home);

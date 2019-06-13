@@ -106,10 +106,8 @@ module.exports.update=(req,res)=>{
      
 	}
 
-
-
-		post.save().then(updatedPost=>{
-			console.log('updated Post');
+	post.save().then(updatedPost=>{
+			req.flash('updated_message',`Post ${updatedPost.title} was updated`);
 			res.redirect('/admin/posts');
 		});
 		
@@ -124,6 +122,9 @@ module.exports.destroy=(req,res)=>{
     Post.findOne({_id:req.params.id})
     .then(post=>{
       fs.unlink(uploadDir+post.file,err=>{
+
+
+	req.flash('delete_message',`Post ${post.title} was deleted`);
 
       	post.remove();
 

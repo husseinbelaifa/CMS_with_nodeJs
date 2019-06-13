@@ -1,6 +1,9 @@
 const Post=require('../models/Post');
 const faker=require('faker');
-const {isEmpty}=require('../helpers/upload-helpers');
+const {isEmpty,uploadDir}=require('../helpers/upload-helpers');
+const fs=require('fs');
+const path=require('path');
+
 module.exports.index=(req,res)=>{
 	Post.find().then(posts=>{
 res.render('admin/posts/index',{posts:posts});
@@ -86,11 +89,18 @@ module.exports.update=(req,res)=>{
 module.exports.destroy=(req,res)=>{
 
 
-	Post.remove({_id:req.params.id}).then(result=>{
+    Post.findOne({_id:req.params.id})
+    .then(post=>{
+      fs.unlink(uploadDir+post.file,err=>{
+
+      	post.remove();
 
 		res.redirect('/admin/posts');
 
-	});
+	
+      })
+    })
+	
 
 }
 

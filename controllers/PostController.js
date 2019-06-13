@@ -1,6 +1,6 @@
 const Post=require('../models/Post');
 const faker=require('faker');
-
+const {isEmpty}=require('../helpers/upload-helpers');
 module.exports.index=(req,res)=>{
 	Post.find().then(posts=>{
 res.render('admin/posts/index',{posts:posts});
@@ -30,14 +30,21 @@ console.log(req.params.id);
 
 module.exports.store=(req,res)=>{
 
-	console.log(req.files);
+	
 
-	let file=req.files.file;
-	let fileName=file.name;
+
+	if(!isEmpty(req.files)){
+
+		let file=req.files.file;
+	  let fileName=file.name;
 
 	file.mv(`./public/uploads/${fileName}`,err=>{
 		if(err) throw err;
 	})
+     
+	}
+
+	
 
 
 	// const newPost=new Post({

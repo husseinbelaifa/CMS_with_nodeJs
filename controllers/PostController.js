@@ -33,6 +33,20 @@ console.log(req.params.id);
 
 module.exports.store=(req,res)=>{
 
+    let errors=[];
+	if(!req.body.title){
+      errors.push({message:'Please add a title'})
+	}
+
+	
+
+	if(!req.body.body){
+      errors.push({message:'Please add a Body'})
+	}
+
+	if(errors.length>0) 
+		res.render('admin/posts/create',{errors:errors});
+
 	
 
     let fileName='61425643_2790248260991905_3044304761076580352_n.jpg';
@@ -116,6 +130,7 @@ module.exports.faker=(req,res)=>{
 
 		post.allowComments=faker.random.boolean();
 		post.body=faker.lorem.sentence();
+
 
 console.log(post);
 		post.save(err=>{

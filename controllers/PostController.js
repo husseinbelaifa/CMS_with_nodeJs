@@ -30,19 +30,29 @@ console.log(req.params.id);
 
 module.exports.store=(req,res)=>{
 
-	const newPost=new Post({
-		title:req.body.title,
-		status:req.body.status,
-		allowComments:req.body.allowComments ? true : false,
-		body:req.body.body
-	});
+	console.log(req.files);
 
-     newPost.save().then(savedPost=>{
-     	console.log(savedPost);
-     	res.redirect('/admin/posts');
-     }).catch(error=>{
-     	console.log(error);
-     });
+	let file=req.files.file;
+	let fileName=file.name;
+
+	file.mv(`./public/uploads/${fileName}`,err=>{
+		if(err) throw err;
+	})
+
+
+	// const newPost=new Post({
+	// 	title:req.body.title,
+	// 	status:req.body.status,
+	// 	allowComments:req.body.allowComments ? true : false,
+	// 	body:req.body.body
+	// });
+
+ //     newPost.save().then(savedPost=>{
+ //     	console.log(savedPost);
+ //     	res.redirect('/admin/posts');
+ //     }).catch(error=>{
+ //     	console.log(error);
+ //     });
 
 	
 }

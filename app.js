@@ -10,6 +10,10 @@ const upload=require('express-fileupload');
 const home=require('./routes/home/index');
 const admin=require('./routes/admin/index');
 const posts=require('./routes/admin/posts');
+const session=require('express-session');
+const flash=require('connect-flash');
+
+
 
 
 app.use(express.static(path.join(__dirname,'public')))
@@ -31,7 +35,14 @@ app.set('view engine','handlebars');
 
 
 
+app.use(session({
+  secret: 'belaifahussein',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}));
 
+app.use(flash());
 
 app.use('/',home);
 app.use('/admin',admin);

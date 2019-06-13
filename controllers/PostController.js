@@ -32,10 +32,10 @@ module.exports.store=(req,res)=>{
 
 	
 
-
+    let fileName='61425643_2790248260991905_3044304761076580352_n.jpg';
 	if(!isEmpty(req.files)){
 
-		let file=req.files.file;
+	  let file=req.files.file;
 	  let fileName=file.name;
 
 	file.mv(`./public/uploads/${fileName}`,err=>{
@@ -45,21 +45,20 @@ module.exports.store=(req,res)=>{
 	}
 
 	
+	const newPost=new Post({
+		title:req.body.title,
+		status:req.body.status,
+		allowComments:req.body.allowComments ? true : false,
+		body:req.body.body,
+		file:fileName
+	});
 
-
-	// const newPost=new Post({
-	// 	title:req.body.title,
-	// 	status:req.body.status,
-	// 	allowComments:req.body.allowComments ? true : false,
-	// 	body:req.body.body
-	// });
-
- //     newPost.save().then(savedPost=>{
- //     	console.log(savedPost);
- //     	res.redirect('/admin/posts');
- //     }).catch(error=>{
- //     	console.log(error);
- //     });
+     newPost.save().then(savedPost=>{
+     	console.log(savedPost);
+     	res.redirect('/admin/posts');
+     }).catch(error=>{
+     	console.log(error);
+     });
 
 	
 }

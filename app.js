@@ -37,12 +37,19 @@ app.set('view engine','handlebars');
 
 app.use(session({
   secret: 'belaifahussein',
-  resave: false,
+  resave: true,
   saveUninitialized: true,
-  cookie: { secure: true }
+  
 }));
 
 app.use(flash());
+
+//locals variables
+
+app.use((req,res,next)=>{
+	res.locals.success_message=req.flash('success_message');
+	next();
+})
 
 app.use('/',home);
 app.use('/admin',admin);

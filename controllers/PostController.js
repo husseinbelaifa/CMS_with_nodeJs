@@ -53,7 +53,7 @@ module.exports.store=(req,res)=>{
 	if(!isEmpty(req.files)){
 
 	  let file=req.files.file;
-	  let fileName=`${Date.now()}-${file.name}`;
+	  let fileName=file.name;
 
 	file.mv(`./public/uploads/${fileName}`,err=>{
 		if(err) throw err;
@@ -71,7 +71,9 @@ module.exports.store=(req,res)=>{
 	});
 
      newPost.save().then(savedPost=>{
-     	console.log(savedPost);
+     
+     	req.flash('success_message',`Post ${savedPost.title} was created successfully`);
+     	console.log('flashing messgae')
      	res.redirect('/admin/posts');
      }).catch(validator=>{
 

@@ -8,7 +8,12 @@ router.all('/*',(req,res,next)=>{
 
 router.get('/',(req,res)=>{
 
-	res.render('home/index');
+	req.session.hussein='Belaifa El Hussein';
+
+	if(req.session.hussein)
+		console.log(`we found him ${req.session.hussein}`)
+
+	// res.render('home/index');
 
 })
 

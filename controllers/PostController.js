@@ -36,7 +36,7 @@ module.exports.store=(req,res)=>{
 	if(!isEmpty(req.files)){
 
 	  let file=req.files.file;
-	  let fileName=file.name;
+	  let fileName=`${Date.now()}-${file.name}`;
 
 	file.mv(`./public/uploads/${fileName}`,err=>{
 		if(err) throw err;

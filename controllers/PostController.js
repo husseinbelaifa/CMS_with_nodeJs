@@ -20,8 +20,6 @@ module.exports.create=(req,res)=>{
 module.exports.edit=(req,res,id)=>{
 
 
-console.log(req.params.id);
-
    Post.findOne({_id:req.params.id}).then(post=>{
    	console.log(post.allowComments);
       res.render('admin/posts/edit',{post:post});
@@ -94,6 +92,21 @@ module.exports.update=(req,res)=>{
 		post.status=req.body.status;
 		post.allowComments=req.body.allowComments ? true : false;
 		post.body=req.body.body;
+
+		 let fileName='61425643_2790248260991905_3044304761076580352_n.jpg';
+	if(!isEmpty(req.files)){
+
+	  let file=req.files.file;
+	  let fileName=file.name;
+	  post.file=fileName;
+
+	file.mv(`./public/uploads/${fileName}`,err=>{
+		if(err) throw err;
+	})
+     
+	}
+
+
 
 		post.save().then(updatedPost=>{
 			console.log('updated Post');

@@ -73,8 +73,11 @@ module.exports.store=(req,res)=>{
      newPost.save().then(savedPost=>{
      	console.log(savedPost);
      	res.redirect('/admin/posts');
-     }).catch(error=>{
-     	console.log(error);
+     }).catch(validator=>{
+
+
+     	// res.render('admin/posts/create',{errors:validator.errors})
+     	console.log(validator.errors);
      });
 
 	

@@ -13,6 +13,7 @@
         
            <th>Status</th>
              <th>Allow Comments</th>
+             <th>Date</th>
            
 
               
@@ -31,9 +32,11 @@
     <td>{{title}}</td>
     <td>{{status}}</td>
     <td>{{allowComments}}</td>
+    <td>{{date}}</td>
     <td><a href="/admin/posts/edit/{{id}}" class="btn btn-info">Edit</a>
 
     </td>
+
      <td>
         <form action="/admin/posts/delete/{{id}}?_method=DELETE" method="post">
            

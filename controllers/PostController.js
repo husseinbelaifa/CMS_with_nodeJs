@@ -3,10 +3,19 @@ const faker=require('faker');
 const {isEmpty,uploadDir}=require('../helpers/upload-helpers');
 const fs=require('fs');
 const path=require('path');
+const moment=require('moment');
 
 module.exports.index=(req,res)=>{
 	Post.find().then(posts=>{
-res.render('admin/posts/index',{posts:posts});
+
+	   const newPostsWithDate= posts.map(post=>{
+	   	
+	   	  const {date,_id,...newPost}=post._doc;
+
+	   	   return {...newPost,id:_id,date:moment(date).format('MMMM Do YYYY , h:mm:ss a')};
+	   })
+
+     res.render('admin/posts/index',{posts:newPostsWithDate});
 	});
 }
 
@@ -22,6 +31,7 @@ module.exports.edit=(req,res,id)=>{
 
    Post.findOne({_id:req.params.id}).then(post=>{
    	console.log(post.allowComments);
+
       res.render('admin/posts/edit',{post:post});
    })
 
@@ -51,7 +61,8 @@ module.exports.store=(req,res)=>{
 	if(!isEmpty(req.files)){
 
 	  let file=req.files.file;
-	  let fileName=file.name;
+	  fileName=Date.now()+'-'+file.name;
+	  console.log('file name is'+fileName);
 
 	file.mv(`./public/uploads/${fileName}`,err=>{
 		if(err) throw err;

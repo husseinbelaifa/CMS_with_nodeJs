@@ -1,4 +1,5 @@
 const Post=require('../models/Post');
+const Category=require('../models/Category');
 const faker=require('faker');
 const {isEmpty,uploadDir}=require('../helpers/upload-helpers');
 const fs=require('fs');
@@ -24,7 +25,12 @@ module.exports.index=(req,res)=>{
 module.exports.create=(req,res)=>{
 
 
-	res.render('admin/posts/create');
+
+    Category.find().then(categories=>{
+
+       res.render('admin/posts/create',{categories:categories});
+    })
+	
 }
 
 module.exports.edit=(req,res,id)=>{

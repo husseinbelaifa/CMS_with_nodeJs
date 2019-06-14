@@ -1,0 +1,45 @@
+<h1>All Categories</h1>
+
+{{>home/form-msg}}
+
+
+<table class="table table-bordered">
+
+	<thead>
+     <tr>
+     	<th>Id</th>
+        <th>Category Name</th>
+       
+           
+
+              
+     </tr>
+
+
+	</thead>
+
+
+   <tbody>
+
+   	{{#each categories}}
+   <tr>
+    <td>{{id}}</td>
+    <td>{{categoryName}}</td>
+  
+    <td><a href="/admin/categories/edit/{{id}}" class="btn btn-info">Edit</a>
+
+    </td>
+
+     <td>
+        <form action="/admin/categories/delete/{{id}}?_method=DELETE" method="post">
+           
+           <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+     </td>
+   </tr>
+
+   {{/each}}
+   </tbody>
+   
+
+</table>

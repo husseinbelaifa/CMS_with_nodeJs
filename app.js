@@ -10,6 +10,7 @@ const upload=require('express-fileupload');
 const home=require('./routes/home/index');
 const admin=require('./routes/admin/index');
 const posts=require('./routes/admin/posts');
+const categories=require('./routes/admin/categories');
 const session=require('express-session');
 const flash=require('connect-flash');
 
@@ -64,6 +65,7 @@ app.use((req,res,next)=>{
 app.use('/',home);
 app.use('/admin',admin);
 app.use('/admin/posts',posts);
+app.use('/admin/categories',categories);
 
 app.listen(4500,()=>{
 	console.log(`listening on port 4500`);

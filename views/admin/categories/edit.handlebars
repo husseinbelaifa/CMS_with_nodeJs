@@ -1,0 +1,24 @@
+<h1>Edit Category</h1>
+
+{{#each errors}}
+
+<div class="alert alert-danger">
+{{message}}
+
+</div>
+
+
+{{/each}}
+<form action="/admin/categories/edit/{{category.id}}?_method=PATCH" method="post" 
+
+>
+
+  <div class="form-group">
+     <label for="categoryName">Category</label>
+     <input type="text"  class="form-control" name="categoryName" id="categoryName" placeholder="Enter Category Name" value="{{category.categoryName}}">
+  </div>
+
+   
+
+	<button type="submit" class="btn btn-primary" >Edit Category</button>
+</form>

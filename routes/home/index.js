@@ -9,6 +9,9 @@ router.all('/*',(req,res,next)=>{
 })
 
 router.get('/',HomeController.index);
+router.get('/posts/:id',HomeController.show);
+
+
 
 router.get('/about',(req,res)=>{
 

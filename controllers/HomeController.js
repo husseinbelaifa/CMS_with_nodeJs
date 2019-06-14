@@ -15,3 +15,17 @@ module.exports.index=(req,res)=>{
 
 
 }
+
+module.exports.show=(req,res)=>{
+
+
+	Post.findOne({_id:req.params.id}).then(post=>{
+		 const {date,_id,...newPost}=post._doc;
+
+	   	 const newPostWithDate={...newPost,id:_id,date:moment(date).format('MMMM Do YYYY , h:mm:ss a')};
+	   	 // res.json(newPostWithDate);
+       res.render('home/posts/show',{post:newPostWithDate});
+	})
+
+	
+}

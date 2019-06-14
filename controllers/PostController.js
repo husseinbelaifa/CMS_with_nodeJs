@@ -4,6 +4,7 @@ const {isEmpty,uploadDir}=require('../helpers/upload-helpers');
 const fs=require('fs');
 const path=require('path');
 const moment=require('moment');
+const {unsplash}=require('../config/unsplashConfig');
 
 module.exports.index=(req,res)=>{
 	Post.find().then(posts=>{
@@ -57,7 +58,11 @@ module.exports.store=(req,res)=>{
 
 	
 
-    let fileName='61425643_2790248260991905_3044304761076580352_n.jpg';
+    let fileName='';
+    unsplash.get('/photos/random').then(response=>{
+	 	
+	 	fileName=response.data.urls.full;
+	})
 	if(!isEmpty(req.files)){
 
 	  let file=req.files.file;
@@ -67,6 +72,8 @@ module.exports.store=(req,res)=>{
 	file.mv(`./public/uploads/${fileName}`,err=>{
 		if(err) throw err;
 	})
+
+	fileName=`/uploads/${fileName}`
      
 	}
 
@@ -104,12 +111,16 @@ module.exports.update=(req,res)=>{
 		post.allowComments=req.body.allowComments ? true : false;
 		post.body=req.body.body;
 
-		 let fileName='61425643_2790248260991905_3044304761076580352_n.jpg';
+		 let fileName='';
+		 unsplash.get('/photos/random').then(response=>{
+	 	
+	 	fileName=response.data.urls.regular;
+	})
 	if(!isEmpty(req.files)){
 
 	  let file=req.files.file;
 	  let fileName=file.name;
-	  post.file=fileName;
+	  post.file=`/uploads/${fileName}`;
 
 	file.mv(`./public/uploads/${fileName}`,err=>{
 		if(err) throw err;
@@ -150,7 +161,14 @@ module.exports.destroy=(req,res)=>{
 
 module.exports.faker=(req,res)=>{
 
-	 // res.send(faker.random.boolean());
+	
+ // unsplash.get('/photos/random').then(response=>{
+ 	// console.log('unsplash');
+ 	// console.log(response.data.urls.full);
+	 	
+	 // 	// post.file=response.data.urls.full;
+	 // })
+	
 
 	for(let i=0;i<req.body.amount;i++){
 
@@ -160,15 +178,23 @@ module.exports.faker=(req,res)=>{
 
 		post.allowComments=faker.random.boolean();
 		post.body=faker.lorem.sentence();
-
-
-console.log(post);
-		post.save(err=>{
+		 unsplash.get('/photos/random').then(response=>{
+	 	
+	 	post.file=response.data.urls.regular;
+	 	console.log(response.data.urls.regular);
+	 	post.save(err=>{
 			if(err) throw err;
 		})
+		
+	 }).then(()=>console.log('finished'))
+		 .catch(err=>console.log(err))
+		
+		
 
 
 	}
 
-		res.redirect('/admin/posts');
+	res.redirect('/admin/posts');
+
+		
 }

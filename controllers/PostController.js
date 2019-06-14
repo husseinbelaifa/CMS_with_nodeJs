@@ -62,7 +62,8 @@ module.exports.store=(req,res)=>{
     unsplash.get('/photos/random').then(response=>{
 	 	
 	 	fileName=response.data.urls.full;
-	})
+	}).then(()=>console.log('finished'))
+		 .catch(err=>console.log(err))
 	if(!isEmpty(req.files)){
 
 	  let file=req.files.file;
@@ -115,7 +116,8 @@ module.exports.update=(req,res)=>{
 		 unsplash.get('/photos/random').then(response=>{
 	 	
 	 	fileName=response.data.urls.regular;
-	})
+	}).then(()=>console.log('finished'))
+		 .catch(err=>console.log(err))
 	if(!isEmpty(req.files)){
 
 	  let file=req.files.file;

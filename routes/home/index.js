@@ -1,21 +1,14 @@
 const express=require('express');
+const HomeController=require('../../controllers/HomeController')
 const router=express.Router();
+
 
 router.all('/*',(req,res,next)=>{
 	req.app.locals.layout='home';
 	next();
 })
 
-router.get('/',(req,res)=>{
-
-	req.session.hussein='Belaifa El Hussein';
-
-	if(req.session.hussein)
-		console.log(`we found him ${req.session.hussein}`)
-
-	// res.render('home/index');
-
-})
+router.get('/',HomeController.index);
 
 router.get('/about',(req,res)=>{
 

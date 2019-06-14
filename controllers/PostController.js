@@ -8,17 +8,28 @@ const moment=require('moment');
 const {unsplash}=require('../config/unsplashConfig');
 
 module.exports.index=(req,res)=>{
-	Post.find().then(posts=>{
 
-	   const newPostsWithDate= posts.map(post=>{
+
+   
+	Post.find().populate('category').then(posts=>{
+
+		// console.log(posts);
+	    const newPostsWithDate= posts.map(post=>{
 	   	
 	   	  const {date,_id,...newPost}=post._doc;
 
+
+	   	    
 	   	   return {...newPost,id:_id,date:moment(date).format('MMMM Do YYYY , h:mm:ss a')};
+             	 
 	   })
+
+	     console.log(newPostsWithDate);
 
      res.render('admin/posts/index',{posts:newPostsWithDate});
 	});
+
+	 
 }
 
 
@@ -28,6 +39,8 @@ module.exports.create=(req,res)=>{
 
     Category.find().then(categories=>{
 
+    	console.log(categories);
+
        res.render('admin/posts/create',{categories:categories});
     })
 	
@@ -36,10 +49,12 @@ module.exports.create=(req,res)=>{
 module.exports.edit=(req,res,id)=>{
 
 
-   Post.findOne({_id:req.params.id}).then(post=>{
-   	console.log(post.allowComments);
-
-      res.render('admin/posts/edit',{post:post});
+   Post.findOne({_id:req.params.id}).populate('category').then(post=>{
+   
+      Category.find().then(categories=>{
+        res.render('admin/posts/edit',{post:post,categories:categories});
+      })
+     
    })
 
 	
@@ -58,6 +73,8 @@ module.exports.store=(req,res)=>{
 	if(!req.body.body){
       errors.push({message:'Please add a Body'})
 	}
+
+
 
 	if(errors.length>0) 
 		res.render('admin/posts/create',{errors:errors});
@@ -84,16 +101,19 @@ module.exports.store=(req,res)=>{
      
 	}
 
-	
-	const newPost=new Post({
+	Category.findOne({categoryName:req.body.category}).then(category=>{
+
+		const newPost=new Post({
 		title:req.body.title,
 		status:req.body.status,
 		allowComments:req.body.allowComments ? true : false,
 		body:req.body.body,
-		file:fileName
+		file:fileName,
+		category:category._id
 	});
 
-     newPost.save().then(savedPost=>{
+
+		  newPost.save().then(savedPost=>{
      
      	req.flash('success_message',`Post ${savedPost.title} was created successfully`);
      	console.log('flashing messgae')
@@ -104,6 +124,37 @@ module.exports.store=(req,res)=>{
      	// res.render('admin/posts/create',{errors:validator.errors})
      	console.log(validator.errors);
      });
+
+
+	})
+
+	if(!req.body.category){
+				const newPost=new Post({
+		title:req.body.title,
+		status:req.body.status,
+		allowComments:req.body.allowComments ? true : false,
+		body:req.body.body,
+		file:fileName,
+	});
+
+
+		  newPost.save().then(savedPost=>{
+     
+     	req.flash('success_message',`Post ${savedPost.title} was created successfully`);
+     	console.log('flashing messgae')
+     	res.redirect('/admin/posts');
+     }).catch(validator=>{
+
+
+     	// res.render('admin/posts/create',{errors:validator.errors})
+     	console.log(validator.errors);
+     });
+
+	}
+
+	
+	
+   
 
 	
 }
@@ -136,10 +187,23 @@ module.exports.update=(req,res)=>{
      
 	}
 
-	post.save().then(updatedPost=>{
+		Category.findOne({categoryName:req.body.category}).then(category=>{
+			post.category=category._id;
+
+			post.save().then(updatedPost=>{
 			req.flash('updated_message',`Post ${updatedPost.title} was updated`);
 			res.redirect('/admin/posts');
 		});
+		})
+
+		if(!req.body.category){
+			post.save().then(updatedPost=>{
+			req.flash('updated_message',`Post ${updatedPost.title} was updated`);
+			res.redirect('/admin/posts');
+		});
+		}
+
+	
 		
 
 	})
@@ -170,15 +234,11 @@ module.exports.destroy=(req,res)=>{
 module.exports.faker=(req,res)=>{
 
 	
- // unsplash.get('/photos/random').then(response=>{
- 	// console.log('unsplash');
- 	// console.log(response.data.urls.full);
-	 	
-	 // 	// post.file=response.data.urls.full;
-	 // })
 	
 
 	for(let i=0;i<req.body.amount;i++){
+
+
 
 		let post=new Post();
 		post.title=faker.name.title();
@@ -189,10 +249,18 @@ module.exports.faker=(req,res)=>{
 		 unsplash.get('/photos/random').then(response=>{
 	 	
 	 	post.file=response.data.urls.regular;
-	 	console.log(response.data.urls.regular);
-	 	post.save(err=>{
-			if(err) throw err;
-		})
+
+	 	 let category=new Category();
+       category.categoryName=faker.commerce.productName();
+       category.save((err,savedCategory)=>{
+	    if(err) throw err;
+	    post.category=savedCategory._id;
+	    post.save(err=>{
+	    	if(err) throw err;
+	    })
+        
+       });
+ 	
 		
 	 }).then(()=>console.log('finished'))
 		 .catch(err=>console.log(err))

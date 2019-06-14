@@ -26,11 +26,17 @@ enctype="multipart/form-data"
 
 
     <div class="form-group">
-     <label for="status">Category</label>
+
+        <label for="status">Categories</label>
+    
+  
+
+    
    <select name="category" id="category" class="form-control">
-    {{#each categories}}
-      <option value="{{categoryName}}">{{categoryName}}</option>
-    {{/each}}
+       {{#each categories}}
+          <option value="{{this.categoryName}}">{{this.categoryName}}</option>
+      
+      {{/each}}
  
    </select>
   </div>

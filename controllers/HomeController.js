@@ -1,4 +1,5 @@
 const Post=require('../models/Post');
+const Category=require('../models/Category');
 const moment=require('moment');
 module.exports.index=(req,res)=>{
 
@@ -10,7 +11,16 @@ module.exports.index=(req,res)=>{
 	   	   return {...newPost,id:_id,date:moment(date).format('MMMM Do YYYY , h:mm:ss a')};
 	   })
 
-		 	res.render('home/index',{posts:newPostsWithDate});
+
+	   Category.find().then(categories=>{
+
+		res.render('home/index',{posts:newPostsWithDate,categories:categories});
+
+	   })
+
+
+
+		 
 	});
 
 

@@ -4,7 +4,7 @@ const path=require('path');
 const exphbs=require('express-handlebars');
 const mongoose=require('./config/dbConfig');
 const bodyParser=require('body-parser');
-const {select,categoryName}=require('./helpers/handlebars-helpers');
+const {select}=require('./helpers/handlebars-helpers');
 const methodOverride=require('method-override');
 const upload=require('express-fileupload');
 const home=require('./routes/home/index');
@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname,'public')))
 
 
 app.engine('handlebars',exphbs({defaultLayout:'home', 
-	helpers:{select:select,categoryName:categoryName}
+	helpers:{select:select}
 	
 }))
 app.set('view engine','handlebars');

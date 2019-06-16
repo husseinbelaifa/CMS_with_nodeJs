@@ -22,9 +22,10 @@ router.get('/about',(req,res)=>{
 })
 
 router.get('/login',AuthController.login);
-
+router.post('/login',AuthController.loginHandler);
 
 
 router.get('/register',AuthController.register);
+router.post('/register',AuthController.registerHandler);
 
 module.exports=router;

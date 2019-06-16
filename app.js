@@ -92,6 +92,7 @@ app.use((req,res,next)=>{
 
 app.use((req,res,next)=>{
 	res.locals.user=req.user || null;
+	res.locals.userAdmin=req.user && req.user.isAdmin ? true : false;
 	res.locals.error=req.flash('error');
 	next();
 })

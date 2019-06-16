@@ -62,6 +62,22 @@ app.use((req,res,next)=>{
 	next();
 })
 
+app.use((req,res,next)=>{
+
+	res.locals.error_register=req.flash('error_register');
+	next();
+
+})
+
+
+app.use((req,res,next)=>{
+
+	res.locals.success_register=req.flash('success_register');
+	next();
+
+})
+
+
 app.use('/',home);
 app.use('/admin',admin);
 app.use('/admin/posts',posts);

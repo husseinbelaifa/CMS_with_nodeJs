@@ -19,8 +19,21 @@ module.exports.registerHandler=(req,res)=>{
     if(!req.body.password) errors.push({message:'please add a password'})
     if(req.body.password!==req.body.passwordConfirm) errors.push({message:'password confirmation must equal to the password'})
 
-    if(errors.length>0) res.render('home/register',{errors:errors});
+    if(errors.length>0) res.render('home/register',{
+        errors:errors,
+        firstName:req.body.firstName,
+        lastName:req.body.lastName,
+        email:req.body.email,
+      
+    });
     else{
+
+        User.findOne({email:req.body.email}).then(user=>{
+            if(user){
+                req.flash('error_register',`Email exists`);
+                res.redirect('/register');
+            }
+        })
             const newUser=new User({
 
         firstName:req.body.firstName,
@@ -35,7 +48,8 @@ module.exports.registerHandler=(req,res)=>{
            
             newUser.password=hash;
             newUser.save().then(savedUser=>{
-            res.send('user was saved');
+            req.flash('success_register',`User ${savedUser.firstName} ${savedUser.lastName} was created successfully`)
+            res.redirect('/');
     })
         })
     })

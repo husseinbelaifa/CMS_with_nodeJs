@@ -28,4 +28,6 @@ router.post('/login',AuthController.loginHandler);
 router.get('/register',AuthController.register);
 router.post('/register',AuthController.registerHandler);
 
+router.get('/logout',AuthController.logout);
+
 module.exports=router;

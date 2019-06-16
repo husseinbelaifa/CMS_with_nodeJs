@@ -21,18 +21,22 @@ module.exports.registerHandler=(req,res)=>{
 
     if(errors.length>0) res.render('home/register',{errors:errors});
     else{
-        res.send('data was good');
+            const newUser=new User({
+
+        firstName:req.body.firstName,
+        lastName:req.body.lastName,
+        email:req.body.email,
+        password:req.body.password,
+    });
+
+    newUser.save().then(savedUser=>{
+       res.send('user was saved');
+    })
+
     }
 
 
-//     const newUser=new User({
 
-//         firstName:req.body.firstName,
-//         lastName:req.body.lastName,
-//         email:req.body.email,
-//         password:req.body.password,
-//     });
-//   res.send('register post');
 }
 
 

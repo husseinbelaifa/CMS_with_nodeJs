@@ -1,5 +1,7 @@
 const User=require('../models/User');
 const bcrypt=require('bcryptjs');
+const passport=require('passport');
+const LocalStrategy=require('passport-local').Strategy;
 module.exports.login=(req,res)=>{
     res.render('home/login');
 }
@@ -32,27 +34,33 @@ module.exports.registerHandler=(req,res)=>{
             if(user){
                 req.flash('error_register',`Email exists`);
                 res.redirect('/register');
+            }else{
+
+                const newUser=new User({
+
+                    firstName:req.body.firstName,
+                    lastName:req.body.lastName,
+                    email:req.body.email,
+                    password:req.body.password,
+                });
+
+                bcrypt.genSalt(10,(err,salt)=>{
+                    bcrypt.hash(newUser.password,salt,(err,hash)=>{
+                       
+                        newUser.password=hash;
+                        newUser.save().then(savedUser=>{
+                        req.flash('success_register',`User ${savedUser.firstName} ${savedUser.lastName} was created successfully`)
+                        res.redirect('/');
+                })
+                    })
+                })
+            
+                
             }
         })
-            const newUser=new User({
-
-        firstName:req.body.firstName,
-        lastName:req.body.lastName,
-        email:req.body.email,
-        password:req.body.password,
-    });
-
-
-    bcrypt.genSalt(10,(err,salt)=>{
-        bcrypt.hash(newUser.password,salt,(err,hash)=>{
            
-            newUser.password=hash;
-            newUser.save().then(savedUser=>{
-            req.flash('success_register',`User ${savedUser.firstName} ${savedUser.lastName} was created successfully`)
-            res.redirect('/');
-    })
-        })
-    })
+
+  
 
     
 
@@ -63,6 +71,13 @@ module.exports.registerHandler=(req,res)=>{
 }
 
 
-module.exports.loginHandler=(req,res)=>{
+module.exports.loginHandler=(req,res,next)=>{
+
+    passport.authenticate('local',{
+        successRedirect:'/',
+        failureRedirect:'/login',
+        failureFlash:true
+
+    })(req,res,next);
     res.send('login post');
 }

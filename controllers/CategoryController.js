@@ -3,6 +3,8 @@ const Category=require('../models/Category');
 
 module.exports.index=(req,res)=>{
 
+   
+    
 	Category.find().then(categories=>{
 
 		res.render('admin/categories/index',{categories:categories});

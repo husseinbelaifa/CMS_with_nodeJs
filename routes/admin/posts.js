@@ -1,9 +1,9 @@
 const express=require('express');
 const PostController=require('../../controllers/PostController')
-
+const {userAuthenticated}=require('../../helpers/authentication');
 const router=express.Router();
 
-router.all('/*',(req,res,next)=>{
+router.all('/*',userAuthenticated,(req,res,next)=>{
 	req.app.locals.layout='admin';
 	next();
 })

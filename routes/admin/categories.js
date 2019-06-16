@@ -1,8 +1,9 @@
 const express=require('express');
 const CategoryController=require('../../controllers/CategoryController');
+const {userAuthenticated}=require('../../helpers/authentication');
 const router=express.Router();
 
-router.all('/*',(req,res,next)=>{
+router.all('/*',userAuthenticated,(req,res,next)=>{
 	req.app.locals.layout='admin';
 	next();
 });

@@ -1,5 +1,5 @@
 const User=require('../models/User');
-
+const bcrypt=require('bcryptjs');
 module.exports.login=(req,res)=>{
     res.render('home/login');
 }
@@ -29,9 +29,18 @@ module.exports.registerHandler=(req,res)=>{
         password:req.body.password,
     });
 
-    newUser.save().then(savedUser=>{
-       res.send('user was saved');
+
+    bcrypt.genSalt(10,(err,salt)=>{
+        bcrypt.hash(newUser.password,salt,(err,hash)=>{
+           
+            newUser.password=hash;
+            newUser.save().then(savedUser=>{
+            res.send('user was saved');
     })
+        })
+    })
+
+    
 
     }
 

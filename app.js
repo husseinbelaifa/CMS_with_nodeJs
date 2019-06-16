@@ -13,8 +13,8 @@ const posts=require('./routes/admin/posts');
 const categories=require('./routes/admin/categories');
 const session=require('express-session');
 const flash=require('connect-flash');
-
-
+const passport=require('passport');
+const cookieParser = require('cookie-parser');
 
 
 app.use(express.static(path.join(__dirname,'public')))
@@ -39,11 +39,18 @@ app.set('view engine','handlebars');
 app.use(session({
   secret: 'belaifahussein',
   resave: true,
-  saveUninitialized: true,
+  saveUninitialized: false,
   
 }));
 
+
+
+
 app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 //locals variables
 
@@ -75,6 +82,18 @@ app.use((req,res,next)=>{
 	res.locals.success_register=req.flash('success_register');
 	next();
 
+})
+
+
+app.use((req,res,next)=>{
+	res.locals.success_message=req.flash('success_message');
+	next();
+});
+
+app.use((req,res,next)=>{
+	res.locals.user=req.user || null;
+	res.locals.error=req.flash('error');
+	next();
 })
 
 

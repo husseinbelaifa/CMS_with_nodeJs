@@ -10,7 +10,7 @@ module.exports.register=(req,res)=>{
     res.render('home/register');
 }
 
-module.exports.registerHandler=(req,res)=>{
+module.exports.registerHandler=(req,res,next)=>{
 
     let errors=[];
 
@@ -49,7 +49,12 @@ module.exports.registerHandler=(req,res)=>{
                         newUser.password=hash;
                         newUser.save().then(savedUser=>{
                         req.flash('success_register',`User ${savedUser.firstName} ${savedUser.lastName} was created successfully`)
-                        res.redirect('/');
+                        passport.authenticate('local',{
+                            successRedirect:'/',
+                            failureRedirect:'/register',
+                            failureFlash:true
+                    
+                        })(req,res,next);
                 })
                     })
                 })
@@ -78,5 +83,4 @@ module.exports.loginHandler=(req,res,next)=>{
         failureFlash:true
 
     })(req,res,next);
-    res.send('login post');
-}
+ }

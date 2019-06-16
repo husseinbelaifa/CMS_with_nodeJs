@@ -1,33 +1,60 @@
 const Post=require('../models/Post');
 const Category=require('../models/Category');
+const User=require('../models/User');
+const Comment=require('../models/Comment');
 const faker=require('faker');
 const {isEmpty,uploadDir}=require('../helpers/upload-helpers');
 const fs=require('fs');
 const path=require('path');
 const moment=require('moment');
 const {unsplash}=require('../config/unsplashConfig');
-
+const bcrypt=require('bcryptjs');
 module.exports.index=(req,res)=>{
+
+	if(!req.user.isAdmin){
+		Post.find({user:req.user._id}).populate('category').then(posts=>{
+
+			// console.log(posts);
+			const newPostsWithDate= posts.map(post=>{
+			   
+				 const {date,_id,...newPost}=post._doc;
+	
+	
+				   
+				  return {...newPost,id:_id,date:moment(date).format('MMMM Do YYYY , h:mm:ss a')};
+					  
+		   })
+	
+			 console.log(newPostsWithDate);
+	
+		 res.render('admin/posts/index',{posts:newPostsWithDate});
+		});
+	
+	}else{
+
+		Post.find().populate('category').then(posts=>{
+
+			// console.log(posts);
+			const newPostsWithDate= posts.map(post=>{
+			   
+				 const {date,_id,...newPost}=post._doc;
+	
+	
+				   
+				  return {...newPost,id:_id,date:moment(date).format('MMMM Do YYYY , h:mm:ss a')};
+					  
+		   })
+	
+			 console.log(newPostsWithDate);
+	
+		 res.render('admin/posts/index',{posts:newPostsWithDate});
+		});
+
+	}
 
 
    
-	Post.find().populate('category').then(posts=>{
-
-		// console.log(posts);
-	    const newPostsWithDate= posts.map(post=>{
-	   	
-	   	  const {date,_id,...newPost}=post._doc;
-
-
-	   	    
-	   	   return {...newPost,id:_id,date:moment(date).format('MMMM Do YYYY , h:mm:ss a')};
-             	 
-	   })
-
-	     console.log(newPostsWithDate);
-
-     res.render('admin/posts/index',{posts:newPostsWithDate});
-	});
+	
 
 	 
 }
@@ -248,16 +275,72 @@ module.exports.faker=(req,res)=>{
 		post.body=faker.lorem.sentence();
 		 unsplash.get('/photos/random').then(response=>{
 	 	
-	 	post.file=response.data.urls.regular;
+		 post.file=response.data.urls.regular;
+		 
+		 //generate random category
 
-	 	 let category=new Category();
+		  let category=new Category();
+		  
        category.categoryName=faker.commerce.productName();
        category.save((err,savedCategory)=>{
 	    if(err) throw err;
-	    post.category=savedCategory._id;
-	    post.save(err=>{
-	    	if(err) throw err;
-	    })
+		post.category=savedCategory._id;
+		//generate random user
+		let user=new User({
+			firstName:faker.name.firstName(),
+			lastName:faker.name.lastName(),
+			email:faker.internet.email(),
+			password:'1234',
+			isAdmin:faker.random.arrayElement([true,false])
+		});
+
+		console.log('terminated');
+
+		bcrypt.genSalt(10,(err,salt)=>{
+			bcrypt.hash(user.password,salt,(err,hash)=>{
+			   
+				user.password=hash;
+				user.save((err,usersaved)=>{
+					if(err) throw err;
+					
+					post.user=usersaved._id;
+
+					post.save((err,postSaved)=>{
+						if(err) throw err;
+						//generate random comment
+
+						for(let i=0;i<10;i++){
+
+							let comment=new Comment({
+								ownerUser:postSaved.user,
+								post:postSaved._id,
+								body:faker.lorem.paragraph()
+							});
+
+							comment.save((err,savedComment)=>{
+								if(err) throw err;
+								//update list of comment
+	
+								Post.findOne({_id:savedComment.post}).then(post=>{
+									console.log(post);
+									 post.comments.push(savedComment._id);
+									post.save((err)=>{
+										if(err) throw err;
+									})
+								})
+							})
+
+						}
+						
+
+					
+					})
+				});
+				
+			})
+		})
+		
+	   
         
        });
  	

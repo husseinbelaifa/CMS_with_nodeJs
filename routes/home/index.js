@@ -1,5 +1,6 @@
 const express=require('express');
-const HomeController=require('../../controllers/HomeController')
+const HomeController=require('../../controllers/HomeController');
+const AuthController=require('../../controllers/AuthController');
 const router=express.Router();
 
 
@@ -13,24 +14,17 @@ router.get('/posts/:id',HomeController.show);
 
 
 
+
 router.get('/about',(req,res)=>{
 
 	res.render('home/about');
 
 })
 
-router.get('/login',(req,res)=>{
-
-	res.render('home/login');
-
-})
+router.get('/login',AuthController.login);
 
 
 
-router.get('/register',(req,res)=>{
-
-	res.render('home/register');
-
-})
+router.get('/register',AuthController.register);
 
 module.exports=router;

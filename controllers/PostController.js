@@ -39,7 +39,7 @@ module.exports.create=(req,res)=>{
 
     Category.find().then(categories=>{
 
-    	console.log(categories);
+     console.log(categories);
 
        res.render('admin/posts/create',{categories:categories});
     })

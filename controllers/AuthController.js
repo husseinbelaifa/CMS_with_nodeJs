@@ -1,7 +1,6 @@
 const User=require('../models/User');
 const bcrypt=require('bcryptjs');
-const passport=require('passport');
-const LocalStrategy=require('passport-local').Strategy;
+const passport=require('../config/passportConfig');
 module.exports.login=(req,res)=>{
     res.render('home/login');
 }

@@ -16,10 +16,10 @@ const session=require('express-session');
 const flash=require('connect-flash');
 const passport=require('passport');
 const cookieParser = require('cookie-parser');
-
+const cors=require('cors');
 
 app.use(express.static(path.join(__dirname,'public')))
-
+app.use(cors());
 
 app.engine('handlebars',exphbs({defaultLayout:'home', 
 	helpers:{select:select}

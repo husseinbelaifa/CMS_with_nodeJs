@@ -27,6 +27,36 @@ module.exports.index=(req,res)=>{
 
 }
 
+module.exports.store=(req,res)=>{
+
+	let comment=new Comment({
+		ownerUser:req.body.userId,
+		post:req.body.postId,
+		body:req.body.body
+	});
+
+	comment.save().then(savedComment=>{
+		//update list of comment 
+
+		Post.findOne({_id:savedComment.post}).then(post=>{
+			post.comments.push(savedComment._id);
+			post.save();
+			console.log("req");
+
+			console.log(req.body);
+			return res.json(savedComment);
+		})
+
+	})
+
+	
+
+
+
+
+
+}
+
 module.exports.show=(req,res)=>{
 
 
@@ -54,7 +84,7 @@ module.exports.show=(req,res)=>{
 
 				// res.json(newPostWithCommentsAndUser);
 			
-				res.render('home/posts/show',{comments:newPostWithCommentsAndUser.comments});
+				res.render('home/posts/show',{post:newPostWithCommentsAndUser});
 			
 			})
 		

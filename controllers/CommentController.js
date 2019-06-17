@@ -31,9 +31,9 @@ module.exports.index=(req,res)=>{
 
 }
 
-module.exports.create=(req,res)=>{
+// module.exports.create=(req,res)=>{
 
-}
+// }
 
 module.exports.destroy=(req,res)=>{
 

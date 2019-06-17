@@ -12,6 +12,8 @@ router.all('/*',(req,res,next)=>{
 router.get('/',HomeController.index);
 router.get('/posts/:id',HomeController.show);
 
+router.post('/posts/:id/comments/create',HomeController.store);
+
 
 
 

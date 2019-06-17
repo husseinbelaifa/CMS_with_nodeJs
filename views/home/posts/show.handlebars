@@ -6,7 +6,7 @@
         <div class="col-lg-8">
 
           <!-- Title -->
-          <h1>{{comments}}</h1>
+          
           <h1 class="mt-4">{{post.title}}</h1>
 
           <!-- Author -->
@@ -46,17 +46,20 @@
           
 
           <!-- Comments Form -->
+          {{#if user}}
           <div class="card my-4">
             <h5 class="card-header">Leave a Comment:</h5>
             <div class="card-body">
-              <form>
+             
                 <div class="form-group">
-                  <textarea class="form-control" rows="3"></textarea>
+                  <textarea class="form-control" rows="3" name="body" id="body"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </form>
+                <button  class="btn btn-primary" id="comment_add"  data-id="{{post.id}}" data-userId="{{user.id}}">Submit</button>
+              
             </div>
           </div>
+
+          {{/if}}
 
           {{#each post.comments}}
 

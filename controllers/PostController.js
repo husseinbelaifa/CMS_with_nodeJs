@@ -368,3 +368,20 @@ module.exports.faker=(req,res)=>{
 
 		
 }
+
+
+module.exports.allowComments=(req,res)=>{
+
+	Post.findOne({_id:req.body.postId}).then(post=>{
+
+        // return res.json(comment);
+
+        post.allowComments=req.body.allowComments;
+        post.save().then(updatedPost=>{
+            req.flash('updated_message',`Post was Updated`);
+            return res.json('Post was updated');
+        });
+
+    })
+
+}

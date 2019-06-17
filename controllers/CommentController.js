@@ -46,3 +46,23 @@ module.exports.destroy=(req,res)=>{
 
 
 }
+
+
+module.exports.update=(req,res)=>{
+
+   
+
+    Comment.findOne({_id:req.body.commentId}).then(comment=>{
+
+        // return res.json(comment);
+
+        comment.status=req.body.status;
+        comment.save().then(updatedComment=>{
+            req.flash('updated_message',`Comment was Updated`);
+            return res.json('comment was updated');
+        });
+
+    })
+
+
+}

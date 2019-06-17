@@ -11,6 +11,8 @@ router.all('/*',userAuthenticated,(req,res,next)=>{
 
 router.get('/',CommentController.index);
 
+router.patch('/edit/:comment_id',CommentController.update);
+
 router.delete('/delete/:comment_id',CommentController.destroy);
 
 module.exports=router;

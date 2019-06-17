@@ -3,6 +3,9 @@
  * Copyright 2013-2017 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-sb-admin/blob/master/LICENSE)
  */
+
+ .toggle.android { border-radius: 0px;}
+ .toggle.android .toggle-handle { border-radius: 0px; }
 html {
   position: relative;
   min-height: 100%; }
@@ -344,3 +347,6 @@ footer.sticky-footer {
 @media (min-width: 992px) {
   body.sidenav-toggled footer.sticky-footer {
     width: calc(100% - 55px); } }
+
+
+  

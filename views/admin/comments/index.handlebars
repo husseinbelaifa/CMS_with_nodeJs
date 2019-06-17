@@ -20,7 +20,12 @@
               <td>{{id}}</td>
               <td>{{ownerUser.firstName}} {{ownerUser.lastName}}</td>
               <td>{{body}}</td>
-              <td>{{status}}</td>
+              <td>
+                  <input type="checkbox" name="approveComment" id="approveComment" {{#if status}}checked="checked"{{/if}}>
+                  <input type="hidden" name="commentId" id="commentId" value="{{id}}">
+                    <input type="hidden" name="postId" id="postId" value="{{post}}">
+                  
+                </td>
               <td>{{date}}</td>
                <td>
                    <form action="/admin/posts/{{post}}/comments/delete/{{id}}?_method=DELETE" method="post">

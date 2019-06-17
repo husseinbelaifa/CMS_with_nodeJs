@@ -13,6 +13,7 @@ router.get('/',PostController.index)
 router.get('/create',PostController.create)
 router.post('/create',PostController.store);
 router.get('/edit/:id',PostController.edit);
+router.patch('/allowComment/:id',PostController.allowComments);
 router.patch('/edit/:id',PostController.update);
 router.delete('/delete/:id',PostController.destroy);
 

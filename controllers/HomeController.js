@@ -44,10 +44,17 @@ module.exports.show=(req,res)=>{
 				populate: {
 				path: 'ownerUser',
 				model: 'users'
-			  } 
+			  },
+			  
+			},
+			{
+				path:'user',
+				model:'users'
 			}]).then(newPostWithCommentsAndUser=>{
+
+				// res.json(newPostWithCommentsAndUser);
 			
-				res.render('home/posts/show',{post:newPostWithCommentsAndUser});
+				res.render('home/posts/show',{comments:newPostWithCommentsAndUser.comments});
 			
 			})
 		

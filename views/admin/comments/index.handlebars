@@ -1,0 +1,39 @@
+<h1>All Comments</h1>
+{{>home/form-msg}}
+<table class="table table-bordered">
+    <thead>
+     <tr>
+     	<th>Id</th>
+        <th>Owner User</th>
+        <th>Content</th>
+        
+        
+           <th>Status</th>
+             <th>Date Of the Comment</th>
+            
+              
+     </tr>
+
+      <tbody>
+          {{#each comments}}
+          <tr>
+              <td>{{id}}</td>
+              <td>{{ownerUser.firstName}} {{ownerUser.lastName}}</td>
+              <td>{{body}}</td>
+              <td>{{status}}</td>
+              <td>{{date}}</td>
+               <td>
+                   <form action="/admin/posts/{{post}}/comments/delete/{{id}}?_method=DELETE" method="post">
+           
+                      <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+               </td>
+
+          </tr>
+          {{/each}}
+      </tbody>
+
+
+	</thead>
+
+</table>

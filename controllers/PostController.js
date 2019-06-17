@@ -311,8 +311,14 @@ module.exports.faker=(req,res)=>{
 
 						for(let i=0;i<10;i++){
 
-							let comment=new Comment({
-								ownerUser:postSaved.user,
+                           User.find().then(users=>{
+							   const randomUser=faker.random.arrayElement(users);
+
+							   let comment=new Comment({
+
+
+
+								ownerUser:users._id,
 								post:postSaved._id,
 								body:faker.lorem.paragraph()
 							});
@@ -329,6 +335,11 @@ module.exports.faker=(req,res)=>{
 									})
 								})
 							})
+
+						   })
+
+							
+							
 
 						}
 						

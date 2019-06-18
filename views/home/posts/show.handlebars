@@ -1,5 +1,6 @@
 
 
+{{>home/form-msg}}
       <div class="row">
 
         <!-- Post Content Column -->
@@ -53,10 +54,17 @@
             <h5 class="card-header">Leave a Comment:</h5>
             <div class="card-body">
              
+               <form action="/posts/{{post.id}}/comments/create" method="POST">
                 <div class="form-group">
+
+                
+                
                   <textarea class="form-control" rows="3" name="body" id="body"></textarea>
                 </div>
-                <button  class="btn btn-primary" id="comment_add"  data-id="{{post.id}}" data-userId="{{user.id}}">Submit</button>
+                <button  class="btn btn-primary" type="submit">Submit</button>
+                </form>
+
+
               
             </div>
           </div>
@@ -74,7 +82,7 @@
           <div class="media mb-4">
             <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
             <div class="media-body">
-              <h5 class="mt-0">{{ownerUser.firstName}} {{ownerUser.lastName}} {{status}}</h5>
+              <h5 class="mt-0">{{ownerUser.firstName}} {{ownerUser.lastName}}</h5>
              {{body}} 
             </div>
           </div>

@@ -15,7 +15,11 @@ module.exports.index=(req,res)=>{
 
 	   Category.find().then(categories=>{
 
-		res.render('home/index',{posts:newPostsWithDate,categories:categories});
+		Post.populate(newPostsWithDate,[{path:'user',model:'users'}]).then(newPostsWithDateAndUser=>{
+			res.render('home/index',{posts:newPostsWithDateAndUser,categories:categories});
+		})
+
+		
 
 	   })
 
@@ -30,8 +34,8 @@ module.exports.index=(req,res)=>{
 module.exports.store=(req,res)=>{
 
 	let comment=new Comment({
-		ownerUser:req.body.userId,
-		post:req.body.postId,
+		ownerUser:req.user._id,
+		post:req.params.id,
 		body:req.body.body
 	});
 
@@ -41,10 +45,9 @@ module.exports.store=(req,res)=>{
 		Post.findOne({_id:savedComment.post}).then(post=>{
 			post.comments.push(savedComment._id);
 			post.save();
-			console.log("req");
-
-			console.log(req.body);
-			return res.json(savedComment);
+		
+			req.flash('success_message','comment was added pls wait for the author approval');
+		    res.redirect(`/posts/${post._id}`);
 		})
 
 	})

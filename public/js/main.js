@@ -1,30 +1,30 @@
 
-$('#comment_add').click(function (e) { 
+// $('#comment_add').click(function (e) { 
 
-    console.log("clicked");
+//     console.log("clicked");
    
-    const postId = $(this).attr('data-id');
-    const userId = $(this).attr('data-userId');
-    const body=$('#body').val();
-    console.log("userId");
+//     const postId = $(this).attr('data-id');
+//     const userId = $(this).attr('data-userId');
+//     const body=$('#body').val();
+//     console.log("userId");
  
-  $.ajax({
-    type: "post",
+//   $.ajax({
+//     type: "post",
 
-    url: `/posts/${postId.id}/comments/create`,
-    data: JSON.stringify({postId:postId,userId:userId,body:body}),
-    contentType:"application/json",
+//     url: `/posts/${postId.id}/comments/create`,
+//     data: JSON.stringify({postId:postId,userId:userId,body:body}),
+//     contentType:"application/json",
 
-    success:function(data){
-        console.log("clicked");
-        console.log(JSON.stringify(data));
-        toastr.success('comment was added wait to check by the author');
-        $('#body').val('');
-    }
+//     success:function(data){
+//         console.log("clicked");
+//         console.log(JSON.stringify(data));
+//         toastr.success('comment was added wait to check by the author');
+//         location.reload();
+//     }
   
-})
+// })
     
-});
+// });
 
 
 $("[name='approveComment']").bootstrapSwitch();

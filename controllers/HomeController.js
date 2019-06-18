@@ -4,6 +4,9 @@ const Comment=require('../models/Comment');
 const moment=require('moment');
 module.exports.index=(req,res)=>{
 
+	console.log('categories');
+	console.log(req.query.Category);
+
 	Post.find().then(posts=>{
 		 const newPostsWithDate= posts.map(post=>{
 	   	
@@ -15,9 +18,48 @@ module.exports.index=(req,res)=>{
 
 	   Category.find().then(categories=>{
 
-		Post.populate(newPostsWithDate,[{path:'user',model:'users'}]).then(newPostsWithDateAndUser=>{
+		if(!req.query.category){
+			Post.populate(newPostsWithDate,[
+				{path:'user',model:'users'},
+				{path:'category',model:'categories'}
+			
+		]).then(newPostsWithDateAndUser=>{
+	
+			if(!newPostsWithDateAndUser.category)
+			newPostsWithDateAndUser=[];
+	
+		
+	
 			res.render('home/index',{posts:newPostsWithDateAndUser,categories:categories});
-		})
+			
+			
+			})
+	
+		}else{
+
+			Post.populate(newPostsWithDate,[
+				{path:'user',model:'users'},
+				{path:'category',model:'categories',match:{categoryName:req.query.category}}
+			
+		]).then(newPostsWithDateAndUser=>{
+	
+			// if(!newPostsWithDateAndUser.category)
+			// newPostsWithDateAndUser=[];
+
+			const newPostsWithDateAndUserWithNotNullCategory=newPostsWithDateAndUser.filter(newpostwithdataanduser=>newpostwithdataanduser.category!==null);
+	
+			// res.json(newPostsWithDateAndUserWithNotNullCategory);
+	
+			res.render('home/index',{posts:newPostsWithDateAndUserWithNotNullCategory,categories:categories});
+			
+			
+			})
+
+		}
+
+		
+
+
 
 		
 

@@ -46,7 +46,9 @@
           
 
           <!-- Comments Form -->
+        {{#if post.allowComments}}
           {{#if user}}
+        
           <div class="card my-4">
             <h5 class="card-header">Leave a Comment:</h5>
             <div class="card-body">
@@ -58,20 +60,32 @@
               
             </div>
           </div>
-
           {{/if}}
+          {{/if}}
+
+         
+
+
 
           {{#each post.comments}}
 
+        
+          {{!-- {{#if status}} --}}
           <div class="media mb-4">
             <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
             <div class="media-body">
-              <h5 class="mt-0">{{ownerUser.firstName}} {{ownerUser.lastName}}</h5>
-             {{body}}
+              <h5 class="mt-0">{{ownerUser.firstName}} {{ownerUser.lastName}} {{status}}</h5>
+             {{body}} 
             </div>
           </div>
 
+          {{!-- {{/if}} --}}
+
+     
+
           {{/each}}
+
+       
 
           <!-- Single Comment -->
         

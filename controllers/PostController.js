@@ -379,7 +379,7 @@ module.exports.allowComments=(req,res)=>{
         post.allowComments=req.body.allowComments;
         post.save().then(updatedPost=>{
             req.flash('updated_message',`Post was Updated`);
-            return res.json('Post was updated');
+            return res.json(`Post was updated ${updatedPost}`);
         });
 
     })

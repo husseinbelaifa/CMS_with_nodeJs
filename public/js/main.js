@@ -18,8 +18,8 @@ $('#comment_add').click(function (e) {
     success:function(data){
         console.log("clicked");
         console.log(JSON.stringify(data));
-
-        //fetch 
+        toastr.success('comment was added wait to check by the author');
+        $('#body').val('');
     }
   
 })

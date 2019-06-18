@@ -4,55 +4,68 @@ const Comment=require('../models/Comment');
 const moment=require('moment');
 module.exports.index=(req,res)=>{
 
-	console.log('categories');
-	console.log(req.query.Category);
+	
+// console.log(req.url);
 
 	Post.find().then(posts=>{
-		 const newPostsWithDate= posts.map(post=>{
+	// 	 const newPostsWithDate= posts.map(post=>{
 	   	
-	   	  const {date,_id,...newPost}=post._doc;
+	//    	  const {date,_id,...newPost}=post._doc;
 
-	   	   return {...newPost,id:_id,date:moment(date).format('MMMM Do YYYY , h:mm:ss a')};
-	   })
+	//    	   return {...newPost,id:_id,date:moment(date).format('MMMM Do YYYY , h:mm:ss a')};
+	//    })
 
 
 	   Category.find().then(categories=>{
 
 		if(!req.query.category){
-			// console.log('koko enter');
-			Post.paginate({},2, 10).then(result=>{
-				console.log(result)
+
+			Post.paginate({},{
+				page:req.query.page ? req.query.page:1,
+				limit:10,
+				populate:[
+							{path:'user',model:'users'},
+							{path:'category',model:'categories'}
+						
+					]
+			}).then(postsPaginated=>{
+
+				// res.json(postsPaginated);
+                const {nextPage,prevPage,...postsPaginatedModif}=postsPaginated
+			
+
+				const newPostsWithDate= postsPaginatedModif.docs.map(postPaginated=>{
+	   	
+					const {date,_id,...newPost}=postPaginated._doc;
+	   
+					 return {...newPost,id:_id,date:moment(date).format('MMMM Do YYYY , h:mm:ss a')};
+			  })
+			  res.render('home/index',{posts:newPostsWithDate,categories:categories,prevPage:prevPage,nextPage:nextPage,url:req.url,params:req.query});
+			//   res.json(newPostsWithDate);
 			})
-		// 	Post.populate(newPostsWithDate,[
-		// 		{path:'user',model:'users'},
-		// 		{path:'category',model:'categories'}
 			
-		// ]).then(newPostsWithDateAndUser=>{
-	
-			
-			
-		// 	// res.json(newPostsWithDateAndUser)
-		
-		// 	// res.render('home/index',{posts:newPostsWithDateAndUser,categories:categories});
-			
-			
-		// 	})
-	
 		}else{
 
-			Post.populate(newPostsWithDate,[
-				{path:'user',model:'users'},
-				{path:'category',model:'categories',match:{categoryName:req.query.category}}
-			
-		]).then(newPostsWithDateAndUser=>{
-	
-		
+			Post.paginate({},{
+				page:req.query.page ? req.query.page:1,
+				limit:10,
+				populate:[
+									{path:'user',model:'users'},
+	                     			{path:'category',model:'categories',match:{categoryName:req.query.category}}
+						
+					]
+			}).then(postsPaginated=>{
 
-			const newPostsWithDateAndUserWithNotNullCategory=newPostsWithDateAndUser.filter(newpostwithdataanduser=>newpostwithdataanduser.category!==null);
-	
-			res.render('home/index',{posts:newPostsWithDateAndUserWithNotNullCategory,categories:categories});
-			
-			
+				const {nextPage,prevPage,...postsPaginatedModif}=postsPaginated
+
+				const newPostsWithDate= postsPaginatedModif.docs.map(postPaginated=>{
+	   	
+					const {date,_id,...newPost}=postPaginated._doc;
+	   
+					 return {...newPost,id:_id,date:moment(date).format('MMMM Do YYYY , h:mm:ss a')};
+			  })
+			  res.render('home/index',{posts:newPostsWithDate,categories:categories,prevPage:prevPage,nextPage:nextPage,url:req.url,params:req.query});
+
 			})
 
 		}

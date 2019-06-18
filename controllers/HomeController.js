@@ -19,21 +19,24 @@ module.exports.index=(req,res)=>{
 	   Category.find().then(categories=>{
 
 		if(!req.query.category){
-			Post.populate(newPostsWithDate,[
-				{path:'user',model:'users'},
-				{path:'category',model:'categories'}
-			
-		]).then(newPostsWithDateAndUser=>{
-	
-			if(!newPostsWithDateAndUser.category)
-			newPostsWithDateAndUser=[];
-	
-		
-	
-			res.render('home/index',{posts:newPostsWithDateAndUser,categories:categories});
-			
-			
+			// console.log('koko enter');
+			Post.paginate({},2, 10).then(result=>{
+				console.log(result)
 			})
+		// 	Post.populate(newPostsWithDate,[
+		// 		{path:'user',model:'users'},
+		// 		{path:'category',model:'categories'}
+			
+		// ]).then(newPostsWithDateAndUser=>{
+	
+			
+			
+		// 	// res.json(newPostsWithDateAndUser)
+		
+		// 	// res.render('home/index',{posts:newPostsWithDateAndUser,categories:categories});
+			
+			
+		// 	})
 	
 		}else{
 
@@ -43,12 +46,9 @@ module.exports.index=(req,res)=>{
 			
 		]).then(newPostsWithDateAndUser=>{
 	
-			// if(!newPostsWithDateAndUser.category)
-			// newPostsWithDateAndUser=[];
+		
 
 			const newPostsWithDateAndUserWithNotNullCategory=newPostsWithDateAndUser.filter(newpostwithdataanduser=>newpostwithdataanduser.category!==null);
-	
-			// res.json(newPostsWithDateAndUserWithNotNullCategory);
 	
 			res.render('home/index',{posts:newPostsWithDateAndUserWithNotNullCategory,categories:categories});
 			
@@ -128,8 +128,12 @@ module.exports.show=(req,res)=>{
 			}]).then(newPostWithCommentsAndUser=>{
 
 				// res.json(newPostWithCommentsAndUser);
+
+				Category.find().then(categories=>{
+					res.render('home/posts/show',{post:newPostWithCommentsAndUser,categories:categories});
+				})
 			
-				res.render('home/posts/show',{post:newPostWithCommentsAndUser});
+			
 			
 			})
 		

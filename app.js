@@ -15,9 +15,8 @@ const comments=require('./routes/admin/comments');
 const session=require('express-session');
 const flash=require('connect-flash');
 const passport=require('passport');
-const cookieParser = require('cookie-parser');
 const cors=require('cors');
-
+const cookieParser=require('cookie-parser');
 app.use(express.static(path.join(__dirname,'public')))
 
 app.use(cors());
@@ -37,6 +36,7 @@ app.set('view engine','handlebars');
  app.use(methodOverride('_method'));
 
 
+ app.use(cookieParser('remember_me'));
 
 app.use(session({
   secret: 'belaifahussein',
@@ -44,14 +44,14 @@ app.use(session({
   saveUninitialized: false,
   
 }));
-
-
-
-
 app.use(flash());
+
+//passport 
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(passport.authenticate('remember-me'));
 
 
 //locals variables

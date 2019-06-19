@@ -74,15 +74,72 @@ module.exports.registerHandler=(req,res,next)=>{
 
 }
 
+let  tokens = {}
 
+function consumeRememberMeToken(token, fn) {
+  var uid = tokens[token];
+  delete tokens[token];
+  return fn(null, uid);
+}
+
+function saveRememberMeToken(token, uid, fn) {
+    tokens[token] = uid;
+    return fn();
+  }
+
+function randomString (len) {
+    var buf = []
+      , chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+      , charlen = chars.length;
+  
+    for (var i = 0; i < len; ++i) {
+      buf.push(chars[getRandomInt(0, charlen - 1)]);
+    }
+  
+    return buf.join('');
+  };
+
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+function issueToken(user, done) {
+    const  token = randomString(64);
+    saveRememberMeToken(token, user.id, function(err) {
+      if (err) return done(err); 
+      return done(null, token);
+    });
+  }
+  
 module.exports.loginHandler=(req,res,next)=>{
 
-    passport.authenticate('local',{
-        successRedirect:'/',
-        failureRedirect:'/login',
-        failureFlash:true
+    // passport.authenticate('local',{
+    //     successRedirect:'/',
+    //     failureRedirect:'/login',
+    //     failureFlash:true
 
-    })(req,res,next);
+    // })(req,res,next);
+
+    // ,function(req,res,next){
+    //     console.log('login');
+    //     if (!req.body.remember_me)  return next();
+    //     issueToken(req.user, function(err, token) {
+    //       if (err) { return next(err); }
+    //       res.cookie('remember_me', token, { path: '/', httpOnly: true, maxAge: 604800000 });
+    //       return next();
+    //     });
+    //   } 
+    //   ,function(req, res) {
+    //       res.redirect('/');
+    //    }
+
+    if (!req.body.remember_me) { return next(); }
+    
+    issueToken(req.user, function(err, token) {
+        if (err) { return next(err); }
+        res.cookie('remember_me', token, { path: '/', httpOnly: true, maxAge: 604800000 });
+        return next();
+      });
  }
 
 

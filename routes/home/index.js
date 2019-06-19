@@ -2,7 +2,7 @@ const express=require('express');
 const HomeController=require('../../controllers/HomeController');
 const AuthController=require('../../controllers/AuthController');
 const router=express.Router();
-
+const passport=require('../../config/passportConfig');
 
 router.all('/*',(req,res,next)=>{
 	req.app.locals.layout='home';
@@ -24,7 +24,17 @@ router.get('/about',(req,res)=>{
 })
 
 router.get('/login',AuthController.login);
-router.post('/login',AuthController.loginHandler);
+router.post('/login',
+passport.authenticate('local',{
+	failureRedirect:'/login',
+	failureFlash:true
+
+}),
+AuthController.loginHandler, 
+function(req, res) {
+    res.redirect('/');
+  }
+  );
 
 
 router.get('/register',AuthController.register);

@@ -5,15 +5,8 @@ const moment=require('moment');
 module.exports.index=(req,res)=>{
 
 	
-// console.log(req.url);
 
 	Post.find().then(posts=>{
-	// 	 const newPostsWithDate= posts.map(post=>{
-	   	
-	//    	  const {date,_id,...newPost}=post._doc;
-
-	//    	   return {...newPost,id:_id,date:moment(date).format('MMMM Do YYYY , h:mm:ss a')};
-	//    })
 
 
 	   Category.find().then(categories=>{
@@ -40,7 +33,7 @@ module.exports.index=(req,res)=>{
 	   
 					 return {...newPost,id:_id,date:moment(date).format('MMMM Do YYYY , h:mm:ss a')};
 			  })
-			  res.render('home/index',{posts:newPostsWithDate,categories:categories,prevPage:prevPage,nextPage:nextPage,url:req.url,params:req.query});
+			  res.render('home/index',{posts:newPostsWithDate,categories:categories,prevPage:prevPage,nextPage:nextPage,url:req.url,params:req.query.category});
 			//   res.json(newPostsWithDate);
 			})
 			
@@ -64,7 +57,7 @@ module.exports.index=(req,res)=>{
 	   
 					 return {...newPost,id:_id,date:moment(date).format('MMMM Do YYYY , h:mm:ss a')};
 			  })
-			  res.render('home/index',{posts:newPostsWithDate,categories:categories,prevPage:prevPage,nextPage:nextPage,url:req.url,params:req.query});
+			  res.render('home/index',{posts:newPostsWithDate,categories:categories,prevPage:prevPage,nextPage:nextPage,url:req.url,params:req.query.category});
 
 			})
 

@@ -113,25 +113,6 @@ function issueToken(user, done) {
   
 module.exports.loginHandler=(req,res,next)=>{
 
-    // passport.authenticate('local',{
-    //     successRedirect:'/',
-    //     failureRedirect:'/login',
-    //     failureFlash:true
-
-    // })(req,res,next);
-
-    // ,function(req,res,next){
-    //     console.log('login');
-    //     if (!req.body.remember_me)  return next();
-    //     issueToken(req.user, function(err, token) {
-    //       if (err) { return next(err); }
-    //       res.cookie('remember_me', token, { path: '/', httpOnly: true, maxAge: 604800000 });
-    //       return next();
-    //     });
-    //   } 
-    //   ,function(req, res) {
-    //       res.redirect('/');
-    //    }
 
     if (!req.body.remember_me) { return next(); }
     

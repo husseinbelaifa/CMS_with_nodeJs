@@ -333,7 +333,7 @@ module.exports.faker=(req,res)=>{
 									post.save((err)=>{
 										if(err) throw err;
 									})
-								})
+								}).then(()=>res.redirect('/admin/posts'))
 							})
 
 						   })
@@ -364,7 +364,7 @@ module.exports.faker=(req,res)=>{
 
 	}
 
-	res.redirect('/admin/posts');
+
 
 		
 }

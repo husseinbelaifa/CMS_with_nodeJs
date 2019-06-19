@@ -31,9 +31,8 @@ passport.authenticate('local',{
 
 }),
 AuthController.loginHandler, 
-function(req, res) {
-    res.redirect('/');
-  }
+(req, res)=>res.redirect('/')
+  
   );
 
 

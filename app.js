@@ -106,6 +106,6 @@ app.use('/admin/posts',posts);
 app.use('/admin/categories',categories);
 app.use('/admin/posts/:id/comments',comments);
 
-app.listen(4500,()=>{
-	console.log(`listening on port 4500`);
+app.listen(3000,()=>{
+	console.log(`listening on port 3000`);
 });

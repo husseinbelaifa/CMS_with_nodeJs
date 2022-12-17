@@ -22,20 +22,30 @@ pipeline{
 
           }
 
-
-           stage('Test') {
-//                       agent {
-//                           label "docker"
-//                       }
-
-                      steps {
-
-                          sh 'docker rm -f $(docker ps -a -q)'
-                          sh 'docker-compose up --build --exit-code-from app'
+          stage("verify_toolong"){
 
 
-                      }
+            steps{
+
+                sh "docker info "
+                sh "docker version "
+                   sh "docker compose version "
+            }
+
+
           }
+
+
+//            stage('Test') {
+//
+//                       steps {
+//
+//                           sh 'docker rm -f $(docker ps -a -q)'
+//                           sh 'docker-compose up --build --exit-code-from app'
+//
+//
+//                       }
+//           }
 
 
 //           stage("docker_v2"){

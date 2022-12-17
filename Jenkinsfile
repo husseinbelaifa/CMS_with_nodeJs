@@ -18,29 +18,39 @@ pipeline{
 
           }
 
-          stage("docker_build"){
-
+          stage("docker"){
 
               steps{
 
-                 sh 'docker-compose build'
-
-                 echo "docker compose build "
+                step([$class: 'DockerComposeBuilder', dockerComposeFile: 'docker-compose.yml', option: [$class: 'StartAllServices'], useCustomDockerComposeFile: true])
               }
 
-          }
-
-          stage('docker run'){
-
-                steps{
-
-                               sh 'docker-compose up'
-
-                               echo "docker compose run "
-                            }
-
 
           }
+
+//           stage("docker_build"){
+//
+//
+//               steps{
+//
+//                  sh 'docker '
+//
+//                  echo "docker compose build "
+//               }
+//
+//           }
+
+//           stage('docker run'){
+//
+//                 steps{
+//
+//                                sh 'docker-compose up'
+//
+//                                echo "docker compose run "
+//                             }
+//
+//
+//           }
       }
 
 }

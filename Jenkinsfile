@@ -17,6 +17,30 @@ pipeline{
               }
 
           }
+
+          stage("docker_build"){
+
+
+              steps{
+
+                 sh 'docker-compose build'
+
+                 echo "docker compose build "
+              }
+
+          }
+
+          stage('docker run'){
+
+                steps{
+
+                               sh 'docker-compose up'
+
+                               echo "docker compose run "
+                            }
+
+
+          }
       }
 
 }

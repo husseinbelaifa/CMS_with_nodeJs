@@ -19,15 +19,30 @@ pipeline{
           }
 
 
-          stage("docker_v2"){
+           stage('Test') {
+                      agent {
+                          label "docker"
+                      }
 
-              steps{
+                      steps {
 
-                step([$class: 'DockerComposeBuilder', dockerComposeFile: 'docker-compose.yml', option: [$class: 'StartAllServices'], useCustomDockerComposeFile: true])
-              }
+                          sh 'docker rm -f $(docker ps -a -q)'
+                          sh 'docker-compose up --build --exit-code-from app'
 
 
+                      }
           }
+
+
+//           stage("docker_v2"){
+//
+//               steps{
+//
+//                 step([$class: 'DockerComposeBuilder', dockerComposeFile: 'docker-compose.yml', option: [$class: 'StartAllServices'], useCustomDockerComposeFile: true])
+//               }
+//
+//
+//           }
 
 //           stage("docker_build"){
 //

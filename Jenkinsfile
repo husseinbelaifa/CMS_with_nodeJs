@@ -20,9 +20,9 @@ pipeline{
 
 
            stage('Test') {
-                      agent {
-                          label "docker"
-                      }
+//                       agent {
+//                           label "docker"
+//                       }
 
                       steps {
 

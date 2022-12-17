@@ -11,7 +11,10 @@ pipeline{
 
           stage("clone"){
 
-               git 'git@github.com:husseinbelaifa/CMS_with_nodeJs.git'
+              steps{
+
+                git 'git@github.com:husseinbelaifa/CMS_with_nodeJs.git'
+              }
 
           }
       }

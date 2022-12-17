@@ -18,7 +18,15 @@ pipeline{
 
           }
 
-          stage("docker"){
+           stage("docker_v3"){
+
+
+                   step([$class: 'DockerComposeBuilder', dockerComposeFile: 'docker-compose.yml', option: [$class: 'StartAllServices'], useCustomDockerComposeFile: true])
+
+
+           }
+
+          stage("docker_v2"){
 
               steps{
 

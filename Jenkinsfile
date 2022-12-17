@@ -25,9 +25,13 @@ pipeline{
 
             steps{
 
-                sh "docker info "
-                sh "docker version "
-                   sh "docker compose version "
+                step([$class: 'DockerComposeBuilder', dockerComposeFile: 'docker-compose.yml', option: [$class: 'StartAllServices'], useCustomDockerComposeFile: true])
+
+                echo "building ... docker"
+
+//                 sh "docker info "
+//                 sh "docker version "
+//                 sh "docker compose version "
             }
 
 

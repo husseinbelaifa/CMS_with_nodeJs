@@ -20,13 +20,13 @@ pipeline{
 
           }
 
-          stage("building_docker_image_v2"){
+          stage("building_docker_image_v2 sudo "){
 
 
             steps{
 
 
-                sh "docker --version"
+                sh "sudo docker --version"
 
 
 //                step([$class: 'DockerBuilderPublisher', cleanImages: false, cleanupWithJenkinsJobDelete: false, cloud: '', dockerFileDirectory: '', fromRegistry: [], pushCredentialsId: '', pushOnSuccess: false, tagsString: 'TEST'])

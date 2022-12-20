@@ -21,7 +21,7 @@ pipeline{
 
           }
 
-          stage("verify_toolong"){
+          stage("building_docker_image"){
 
 
             steps{

@@ -7,6 +7,7 @@ pipeline{
      environment {
              branch = "${env.GIT_BRANCH.split("/")[1]}"
 
+
       }
 
       stages{
@@ -25,7 +26,8 @@ pipeline{
 
             steps{
 
-                step([$class: 'DockerComposeBuilder', dockerComposeFile: 'docker-compose.yml', option: [$class: 'StartAllServices'], useCustomDockerComposeFile: true])
+
+                step([$class: 'DockerBuilderPublisher', cleanImages: false, cleanupWithJenkinsJobDelete: false, cloud: '', dockerFileDirectory: '', fromRegistry: [], pushCredentialsId: '', pushOnSuccess: false, tagsString: 'TEST'])
 
                 echo "building ... docker"
 

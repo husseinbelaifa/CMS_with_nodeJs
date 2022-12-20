@@ -2,7 +2,7 @@ pipeline{
 
 //     agent any
 
-     agent any
+     agent docker
 
      environment {
              branch = "${env.GIT_BRANCH.split("/")[1]}"
@@ -21,15 +21,18 @@ pipeline{
 
           }
 
-          stage("building_docker_image"){
+          stage("building_docker_image_v2"){
 
 
             steps{
 
 
-                step([$class: 'DockerBuilderPublisher', cleanImages: false, cleanupWithJenkinsJobDelete: false, cloud: '', dockerFileDirectory: '', fromRegistry: [], pushCredentialsId: '', pushOnSuccess: false, tagsString: 'TEST'])
+                sh "docker --version"
 
-                echo "building ... docker"
+
+//                step([$class: 'DockerBuilderPublisher', cleanImages: false, cleanupWithJenkinsJobDelete: false, cloud: '', dockerFileDirectory: '', fromRegistry: [], pushCredentialsId: '', pushOnSuccess: false, tagsString: 'TEST'])
+//
+//                echo "building ... docker"
 
 //                 sh "docker info "
 //                 sh "docker version "

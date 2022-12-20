@@ -20,30 +20,15 @@ pipeline{
 
           }
 
-          stage('Build_docker_v1') {
-              steps {
-                  script{
-                      app = docker.build("underwater")
-                  }
-              }
-          }
 
-          stage("building_docker_image_v2 sudo "){
+          stage("building_docker_image_v5_sudo "){
 
 
             steps{
 
 
-                sh "sudo docker --version"
+                sh "docker --version"
 
-
-//                step([$class: 'DockerBuilderPublisher', cleanImages: false, cleanupWithJenkinsJobDelete: false, cloud: '', dockerFileDirectory: '', fromRegistry: [], pushCredentialsId: '', pushOnSuccess: false, tagsString: 'TEST'])
-//
-//                echo "building ... docker"
-
-//                 sh "docker info "
-//                 sh "docker version "
-//                 sh "docker compose version "
             }
 
 

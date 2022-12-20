@@ -2,9 +2,7 @@ pipeline{
 
 //     agent any
 
-     agent {
-         label 'docker'
-     }
+     agent any
 
      environment {
              branch = "${env.GIT_BRANCH.split("/")[1]}"

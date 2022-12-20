@@ -20,6 +20,14 @@ pipeline{
 
           }
 
+          stage('Build_docker_v1') {
+              steps {
+                  script{
+                      app = docker.build("underwater")
+                  }
+              }
+          }
+
           stage("building_docker_image_v2 sudo "){
 
 

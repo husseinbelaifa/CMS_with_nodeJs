@@ -28,7 +28,9 @@ pipeline{
 
 //                sh "docker --version"
 
-                  def newApp = docker.build "TEST_IMAGE"
+                script {
+                    myImage = docker.build("test_hussein") // build the Dockerfile
+                }
 
             }
 

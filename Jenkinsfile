@@ -26,7 +26,9 @@ pipeline{
 
             steps{
 
-                sh "docker --version"
+//                sh "docker --version"
+
+                  def newApp = docker.build "TEST_IMAGE"
 
             }
 

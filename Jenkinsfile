@@ -1,4 +1,4 @@
-pipeline{
+node{
 
 
      agent any
@@ -28,9 +28,8 @@ pipeline{
 
 //                sh "docker --version"
 
-                script {
-                    myImage = docker.build("test_hussein") // build the Dockerfile
-                }
+                def myImage = docker.build("test_hussein") // build the Dockerfile
+
 
             }
 

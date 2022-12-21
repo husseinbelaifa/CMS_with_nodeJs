@@ -1,4 +1,4 @@
-node{
+pipeline{
 
 
      agent any
@@ -26,9 +26,8 @@ node{
 
             steps{
 
-//                sh "docker --version"
+                sh "docker --version"
 
-                def myImage = docker.build("test_hussein") // build the Dockerfile
 
 
             }

@@ -15,7 +15,7 @@ pipeline{
 
               steps{
 
-                git 'git@github.com:husseinbelaifa/CMS_with_nodeJs.git'
+                git 'https://github.com/husseinbelaifa/CMS_with_nodeJs.git'
               }
 
           }
